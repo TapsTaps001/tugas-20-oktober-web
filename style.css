@@ -1,0 +1,823 @@
+/* ==========================================================================
+   TapsCalculator - Desain Bersih, Minimalis & Sederhana
+   Tema: Perpaduan Putih & Hijau (Solid / Tanpa Gradasi Warna)
+   Modul: Kalkulator Ilmiah & Konversi Satuan
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Variabel Warna & Token Desain
+   -------------------------------------------------------------------------- */
+:root {
+  /* Warna Dasar Bersih */
+  --bg-page: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-muted: #f1f5f9;
+  --border-color: #e2e8f0;
+  --border-focus: #16a34a;
+
+  /* Tema Hijau Solid (Tanpa Gradasi) */
+  --green-primary: #16a34a;
+  --green-hover: #15803d;
+  --green-dark: #166534;
+  --green-light: #f0fdf4;
+  --green-border: #bbf7d0;
+
+  /* Warna Teks */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-on-green: #ffffff;
+
+  /* Tombol Keypad Kalkulator */
+  --btn-num-bg: #ffffff;
+  --btn-num-hover: #f1f5f9;
+  --btn-func-bg: #f0fdf4;
+  --btn-func-hover: #dcfce7;
+  --btn-func-text: #166534;
+  --btn-op-bg: #16a34a;
+  --btn-op-hover: #15803d;
+  --btn-danger-bg: #fee2e2;
+  --btn-danger-text: #b91c1c;
+  --btn-warning-bg: #fef3c7;
+  --btn-warning-text: #b45309;
+
+  /* Tipografi */
+  --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Radius & Bayangan Datar Sederhana */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Dasar Dokumen
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.glass-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-subtle);
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 24px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Header Navigasi Sederhana
+   -------------------------------------------------------------------------- */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 22px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--green-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.brand-text h1 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.brand-text h1 span {
+  color: var(--green-primary);
+}
+
+.brand-tagline {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Navigasi Tab */
+.nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-muted);
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.nav-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.nav-btn.active {
+  background: var(--green-primary);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   4. Manajemen Panel Tab
+   -------------------------------------------------------------------------- */
+.main-content {
+  flex: 1;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   5. MODUL 1: KALKULATOR ILMIAH
+   -------------------------------------------------------------------------- */
+.calc-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  align-items: start;
+}
+
+.calc-card {
+  padding: 22px;
+}
+
+/* Layar Tampilan Kalkulator */
+.calc-display-container {
+  background: var(--green-light);
+  border: 1px solid var(--green-border);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.calc-display-container:focus-within {
+  border-color: var(--green-primary);
+}
+
+.display-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mode-indicators {
+  display: flex;
+  gap: 6px;
+}
+
+.mode-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.mode-badge.active {
+  background: var(--green-primary);
+  color: #ffffff;
+  border-color: var(--green-primary);
+}
+
+.history-preview {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.calc-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: right;
+  letter-spacing: 0.5px;
+}
+
+.display-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--green-border);
+  padding-top: 8px;
+}
+
+.calc-preview-result {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--green-dark);
+}
+
+.status-msg {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Keypad Grid */
+.calc-keypad {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.keypad-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.keypad-row:nth-child(2),
+.keypad-row:nth-child(3) {
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.core-grid {
+  display: grid;
+  grid-template-columns: 1fr 90px;
+  gap: 8px;
+}
+
+.num-op-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.calc-action-col {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr) 2fr;
+  gap: 8px;
+}
+
+/* Tombol Kalkulator */
+.calc-btn {
+  height: 50px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--btn-num-bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  outline: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.calc-btn:hover {
+  background: var(--btn-num-hover);
+  border-color: #cbd5e1;
+}
+
+.btn-func {
+  background: var(--btn-func-bg);
+  color: var(--btn-func-text);
+  border-color: var(--green-border);
+}
+.btn-func:hover {
+  background: var(--btn-func-hover);
+}
+
+.btn-trig {
+  background: var(--btn-func-bg);
+  color: var(--green-primary);
+  border-color: var(--green-border);
+}
+.btn-trig:hover {
+  background: var(--btn-func-hover);
+}
+
+.btn-mode {
+  background: #ffffff;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+.btn-mode.active {
+  background: var(--green-primary);
+  color: #ffffff;
+  border-color: var(--green-primary);
+}
+
+.btn-op {
+  background: var(--green-primary);
+  color: #ffffff;
+  border-color: var(--green-primary);
+  font-size: 1.25rem;
+}
+.btn-op:hover {
+  background: var(--green-hover);
+  border-color: var(--green-hover);
+}
+
+.btn-special {
+  background: var(--bg-muted);
+  color: var(--text-primary);
+}
+
+.btn-danger {
+  background: var(--btn-danger-bg);
+  color: var(--btn-danger-text);
+  border-color: #fecaca;
+}
+.btn-danger:hover {
+  background: #fca5a5;
+}
+
+.btn-warning {
+  background: var(--btn-warning-bg);
+  color: var(--btn-warning-text);
+  border-color: #fde68a;
+}
+.btn-warning:hover {
+  background: #fcd34d;
+}
+
+.btn-equals {
+  background: var(--green-primary);
+  color: #ffffff;
+  border-color: var(--green-primary);
+  font-size: 1.6rem;
+  font-weight: 700;
+  height: auto;
+}
+.btn-equals:hover {
+  background: var(--green-hover);
+}
+
+/* Sidebar Kalkulator */
+.calc-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebar-card {
+  padding: 16px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.card-header h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-header h3 i {
+  color: var(--green-primary);
+}
+
+.badge-mini {
+  font-size: 0.72rem;
+  background: var(--bg-muted);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+}
+
+.text-btn {
+  background: transparent;
+  border: none;
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.text-btn.danger {
+  color: var(--btn-danger-text);
+}
+.text-btn.danger:hover {
+  background: var(--btn-danger-bg);
+}
+
+.constants-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.const-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.const-item:hover {
+  background: var(--green-light);
+  border-color: var(--green-border);
+}
+
+.const-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.const-sym {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--green-primary);
+  font-size: 0.95rem;
+  min-width: 28px;
+}
+
+.const-name {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.const-val {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Riwayat Hitung */
+.history-panel {
+  flex: 1;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.history-item {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.history-item:hover {
+  background: var(--green-light);
+  border-color: var(--green-border);
+}
+
+.hist-exp {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hist-res {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--green-primary);
+  text-align: right;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   6. MODUL 2: KONVERSI SATUAN ILMIAH
+   -------------------------------------------------------------------------- */
+.converter-layout {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.converter-header h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.converter-header p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.unit-categories {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cat-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-family: var(--font-main);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cat-btn:hover {
+  background: var(--green-light);
+  border-color: var(--green-border);
+  color: var(--green-primary);
+}
+
+.cat-btn.active {
+  background: var(--green-primary);
+  color: #ffffff;
+  font-weight: 600;
+  border-color: var(--green-primary);
+}
+
+.converter-box {
+  display: grid;
+  grid-template-columns: 1fr 50px 1fr;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg-muted);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 22px;
+}
+
+.unit-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.unit-box label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.unit-box input {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.unit-box input:focus {
+  border-color: var(--green-primary);
+}
+
+.unit-box.to-unit input {
+  color: var(--green-primary);
+}
+
+.select-styled {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.select-styled:focus {
+  border-color: var(--green-primary);
+}
+
+.swap-action {
+  display: flex;
+  justify-content: center;
+}
+
+.swap-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  color: var(--green-primary);
+  font-size: 1.05rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.swap-btn:hover {
+  background: var(--green-primary);
+  color: #ffffff;
+  border-color: var(--green-primary);
+}
+
+.multi-unit-table-wrap h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+}
+
+.styled-table th, .styled-table td {
+  padding: 10px 14px;
+  text-align: left;
+}
+
+.styled-table thead tr {
+  background: var(--bg-muted);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.styled-table tbody tr:hover {
+  background: var(--green-light);
+}
+
+.styled-table td:nth-child(2) {
+  font-family: var(--font-mono);
+  color: var(--green-primary);
+}
+
+.styled-table td:nth-child(3),
+.styled-table td:nth-child(4) {
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   7. Responsif Layar
+   -------------------------------------------------------------------------- */
+@media (max-width: 1080px) {
+  .calc-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .nav-tabs {
+    overflow-x: auto;
+  }
+  .keypad-row {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+  .core-grid {
+    grid-template-columns: 1fr;
+  }
+  .calc-action-col {
+    grid-template-rows: 1fr;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .converter-box {
+    grid-template-columns: 1fr;
+  }
+  .swap-btn {
+    margin: 6px auto;
+  }
+}

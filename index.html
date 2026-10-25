@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TapsCalculator - Aplikasi Perhitungan Ilmiah & Konversi Satuan Modern.">
+  <title>TapsCalculator - Perhitungan Ilmiah & Konversi Satuan</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-calculator"></i>
+        </div>
+        <div class="brand-text">
+          <h1>Taps<span>Calculator</span></h1>
+          <p class="brand-tagline">Kalkulator Ilmiah & Konversi Satuan</p>
+        </div>
+      </div>
+
+      <nav class="nav-tabs" id="navTabs">
+        <button class="nav-btn active" data-tab="tab-calculator">
+          <i class="fa-solid fa-calculator"></i>
+          <span>Kalkulator Ilmiah</span>
+        </button>
+        <button class="nav-btn" data-tab="tab-converter">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+          <span>Konversi Satuan</span>
+        </button>
+      </nav>
+
+    </header>
+
+    <main class="main-content">
+
+      <section class="tab-panel active" id="tab-calculator">
+        <div class="calc-layout">
+          <div class="calc-card glass-panel">
+            <div class="calc-display-container">
+              <div class="display-top-bar">
+                <div class="mode-indicators">
+                  <span class="mode-badge active" id="angleModeBadge">DEG</span>
+                  <span class="mode-badge" id="invModeBadge">2nd OFF</span>
+                  <span class="mode-badge" id="memBadge">M: 0</span>
+                </div>
+                <div class="history-preview" id="calcHistoryPreview" title="Riwayat ekspresi terakhir">0</div>
+              </div>
+              <div class="display-main">
+                <input type="text" id="calcInput" class="calc-input" placeholder="0" spellcheck="false" autocomplete="off">
+              </div>
+              <div class="display-bottom-bar">
+                <span class="calc-preview-result" id="calcPreviewResult">= 0</span>
+                <span class="status-msg" id="calcStatus">Siap menghitung</span>
+              </div>
+            </div>
+
+            <div class="calc-keypad">
+              <div class="keypad-row">
+                <button class="calc-btn btn-mode" id="btnToggleAngle" title="Ubah Derajat / Radian">DEG</button>
+                <button class="calc-btn btn-mode" id="btnToggleInv" title="Fungsi Invers">2nd</button>
+                <button class="calc-btn btn-func" data-action="mem-clear" title="Clear Memory">MC</button>
+                <button class="calc-btn btn-func" data-action="mem-recall" title="Recall Memory">MR</button>
+                <button class="calc-btn btn-func" data-action="mem-add" title="Memory Add">M+</button>
+                <button class="calc-btn btn-func" data-action="mem-sub" title="Memory Subtract">M-</button>
+              </div>
+
+              <div class="keypad-row">
+                <button class="calc-btn btn-trig" data-val="sin(" data-inv="asin(">sin</button>
+                <button class="calc-btn btn-trig" data-val="cos(" data-inv="acos(">cos</button>
+                <button class="calc-btn btn-trig" data-val="tan(" data-inv="atan(">tan</button>
+                <button class="calc-btn btn-func" data-val="log10(" data-inv="10^(">log₁₀</button>
+                <button class="calc-btn btn-func" data-val="ln(" data-inv="e^(">ln</button>
+                <button class="calc-btn btn-func" data-val="(">(</button>
+                <button class="calc-btn btn-func" data-val=")">)</button>
+              </div>
+
+              <div class="keypad-row">
+                <button class="calc-btn btn-func" data-val="^2">x²</button>
+                <button class="calc-btn btn-func" data-val="^">xʸ</button>
+                <button class="calc-btn btn-func" data-val="sqrt(">√</button>
+                <button class="calc-btn btn-func" data-val="cbrt(">∛</button>
+                <button class="calc-btn btn-func" data-val="!">n!</button>
+                <button class="calc-btn btn-func" data-val="nPr">nPr</button>
+                <button class="calc-btn btn-func" data-val="nCr">nCr</button>
+              </div>
+
+              <div class="core-grid">
+                <div class="num-op-grid">
+                  <button class="calc-btn btn-special" data-val="pi">π</button>
+                  <button class="calc-btn btn-special" data-val="e">e</button>
+                  <button class="calc-btn btn-danger" id="btnClear" title="Bersihkan Semua">AC</button>
+                  <button class="calc-btn btn-warning" id="btnBackspace" title="Hapus Karakter"><i class="fa-solid fa-delete-left"></i></button>
+                  
+                  <button class="calc-btn btn-num" data-val="7">7</button>
+                  <button class="calc-btn btn-num" data-val="8">8</button>
+                  <button class="calc-btn btn-num" data-val="9">9</button>
+                  <button class="calc-btn btn-op" data-val="/" title="Bagi">÷</button>
+                  
+                  <button class="calc-btn btn-num" data-val="4">4</button>
+                  <button class="calc-btn btn-num" data-val="5">5</button>
+                  <button class="calc-btn btn-num" data-val="6">6</button>
+                  <button class="calc-btn btn-op" data-val="*" title="Kali">×</button>
+                  
+                  <button class="calc-btn btn-num" data-val="1">1</button>
+                  <button class="calc-btn btn-num" data-val="2">2</button>
+                  <button class="calc-btn btn-num" data-val="3">3</button>
+                  <button class="calc-btn btn-op" data-val="-" title="Kurang">−</button>
+                  
+                  <button class="calc-btn btn-num" data-val="0">0</button>
+                  <button class="calc-btn btn-num" data-val=".">.</button>
+                  <button class="calc-btn btn-func" data-action="negate">±</button>
+                  <button class="calc-btn btn-op" data-val="+" title="Tambah">+</button>
+                </div>
+
+                <div class="calc-action-col">
+                  <button class="calc-btn btn-func" data-val="abs(" title="Nilai Mutlak">|x|</button>
+                  <button class="calc-btn btn-func" data-val=" % " title="Modulus">mod</button>
+                  <button class="calc-btn btn-func" data-val="Ans" title="Hasil Sebelumnya">Ans</button>
+                  <button class="calc-btn btn-primary btn-equals" id="btnEquals" title="Hitung Hasil (Enter)">=</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-sidebar">
+            <div class="sidebar-card glass-panel">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-atom"></i> Konstanta Ilmiah</h3>
+                <span class="badge-mini">Klik untuk sisipkan</span>
+              </div>
+              <div class="constants-list">
+                <div class="const-item" data-insert="299792458" title="Kecepatan Cahaya (m/s)">
+                  <div class="const-info">
+                    <span class="const-sym">c</span>
+                    <span class="const-name">Kecepatan Cahaya</span>
+                  </div>
+                  <span class="const-val">2.998 × 10⁸ m/s</span>
+                </div>
+                <div class="const-item" data-insert="6.62607015e-34" title="Konstanta Planck (J·s)">
+                  <div class="const-info">
+                    <span class="const-sym">h</span>
+                    <span class="const-name">Konstanta Planck</span>
+                  </div>
+                  <span class="const-val">6.626 × 10⁻³⁴ J·s</span>
+                </div>
+                <div class="const-item" data-insert="6.67430e-11" title="Konstanta Gravitasi Universal (N·m²/kg²)">
+                  <div class="const-info">
+                    <span class="const-sym">G</span>
+                    <span class="const-name">Gravitasi Universal</span>
+                  </div>
+                  <span class="const-val">6.674 × 10⁻¹¹ N·m²/kg²</span>
+                </div>
+                <div class="const-item" data-insert="6.02214076e23" title="Bilangan Avogadro (mol⁻¹)">
+                  <div class="const-info">
+                    <span class="const-sym">N_A</span>
+                    <span class="const-name">Bilangan Avogadro</span>
+                  </div>
+                  <span class="const-val">6.022 × 10²³ mol⁻¹</span>
+                </div>
+                <div class="const-item" data-insert="8.314462618" title="Konstanta Gas Universal (J/(mol·K))">
+                  <div class="const-info">
+                    <span class="const-sym">R</span>
+                    <span class="const-name">Konstanta Gas (R)</span>
+                  </div>
+                  <span class="const-val">8.314 J/(mol·K)</span>
+                </div>
+                <div class="const-item" data-insert="1.380649e-23" title="Konstanta Boltzmann (J/K)">
+                  <div class="const-info">
+                    <span class="const-sym">k_B</span>
+                    <span class="const-name">Konstanta Boltzmann</span>
+                  </div>
+                  <span class="const-val">1.381 × 10⁻²³ J/K</span>
+                </div>
+                <div class="const-item" data-insert="9.1093837e-31" title="Massa Elektron (kg)">
+                  <div class="const-info">
+                    <span class="const-sym">m_e</span>
+                    <span class="const-name">Massa Elektron</span>
+                  </div>
+                  <span class="const-val">9.109 × 10⁻³¹ kg</span>
+                </div>
+                <div class="const-item" data-insert="9.80665" title="Percepatan Gravitasi Bumi standar (m/s²)">
+                  <div class="const-info">
+                    <span class="const-sym">g</span>
+                    <span class="const-name">Gravitasi Bumi</span>
+                  </div>
+                  <span class="const-val">9.807 m/s²</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sidebar-card glass-panel history-panel">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Hitung</h3>
+                <button class="text-btn danger" id="btnClearHistory" title="Hapus Riwayat">
+                  <i class="fa-solid fa-trash-can"></i> Bersihkan
+                </button>
+              </div>
+              <div class="history-list" id="calcHistoryList">
+                <div class="empty-state">Belum ada riwayat kalkulasi.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="tab-converter">
+        <div class="converter-layout glass-panel">
+          <div class="converter-header">
+            <h2>Konversi Satuan Standar & Ilmiah (SI / Imperial)</h2>
+            <p>Konversi instan antar besaran fisika lengkap dengan faktor pengali presisi tinggi.</p>
+          </div>
+
+          <div class="unit-categories" id="unitCategoryList">
+            <button class="cat-btn active" data-cat="length"><i class="fa-solid fa-ruler"></i> Panjang & Jarak</button>
+            <button class="cat-btn" data-cat="energy"><i class="fa-solid fa-fire-flame-curved"></i> Energi & Usaha</button>
+            <button class="cat-btn" data-cat="pressure"><i class="fa-solid fa-gauge-high"></i> Tekanan</button>
+            <button class="cat-btn" data-cat="temp"><i class="fa-solid fa-temperature-three-quarters"></i> Temperatur</button>
+            <button class="cat-btn" data-cat="mass"><i class="fa-solid fa-weight-scale"></i> Massa</button>
+            <button class="cat-btn" data-cat="speed"><i class="fa-solid fa-gauge"></i> Kecepatan</button>
+          </div>
+
+          <div class="converter-box">
+            <div class="unit-box from-unit">
+              <label>Dari Satuan:</label>
+              <input type="number" id="convertFromValue" value="1" step="any">
+              <select id="convertFromSelect" class="select-styled"></select>
+            </div>
+
+            <div class="swap-action">
+              <button class="swap-btn" id="btnSwapUnits" title="Tukar Satuan">
+                <i class="fa-solid fa-right-left"></i>
+              </button>
+            </div>
+
+            <div class="unit-box to-unit">
+              <label>Ke Satuan:</label>
+              <input type="text" id="convertToValue" readonly value="1000">
+              <select id="convertToSelect" class="select-styled"></select>
+            </div>
+          </div>
+
+          <div class="multi-unit-table-wrap">
+            <h3><i class="fa-solid fa-table"></i> Tabel Perbandingan Semua Satuan Terkait</h3>
+            <div class="table-responsive">
+              <table class="styled-table" id="unitComparisonTable">
+                <thead>
+                  <tr>
+                    <th>Satuan</th>
+                    <th>Simbol</th>
+                    <th>Nilai Ekuivalen</th>
+                    <th>Notasi Ilmiah</th>
+                  </tr>
+                </thead>
+                <tbody id="unitComparisonBody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
