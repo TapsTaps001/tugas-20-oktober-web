@@ -1,34 +1,25 @@
-/* ==========================================================================
-   TapsCalculator - Desain Bersih, Minimalis & Sederhana
-   Tema: Perpaduan Putih & Hijau (Solid / Tanpa Gradasi Warna)
-   Modul: Kalkulator Ilmiah & Konversi Satuan
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   1. Variabel Warna & Token Desain
-   -------------------------------------------------------------------------- */
 :root {
-  /* Warna Dasar Bersih */
+  
   --bg-page: #f8fafc;
   --bg-surface: #ffffff;
   --bg-muted: #f1f5f9;
   --border-color: #e2e8f0;
   --border-focus: #16a34a;
 
-  /* Tema Hijau Solid (Tanpa Gradasi) */
+  
   --green-primary: #16a34a;
   --green-hover: #15803d;
   --green-dark: #166534;
   --green-light: #f0fdf4;
   --green-border: #bbf7d0;
 
-  /* Warna Teks */
+  
   --text-primary: #0f172a;
   --text-secondary: #475569;
   --text-muted: #64748b;
   --text-on-green: #ffffff;
 
-  /* Tombol Keypad Kalkulator */
+  
   --btn-num-bg: #ffffff;
   --btn-num-hover: #f1f5f9;
   --btn-func-bg: #f0fdf4;
@@ -41,11 +32,11 @@
   --btn-warning-bg: #fef3c7;
   --btn-warning-text: #b45309;
 
-  /* Tipografi */
+  
   --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Radius & Bayangan Datar Sederhana */
+  
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
@@ -53,9 +44,6 @@
   --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
-/* --------------------------------------------------------------------------
-   2. Reset & Dasar Dokumen
-   -------------------------------------------------------------------------- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -89,9 +77,6 @@ html, body {
   padding: 20px 24px;
 }
 
-/* --------------------------------------------------------------------------
-   3. Header Navigasi Sederhana
-   -------------------------------------------------------------------------- */
 .app-header {
   display: flex;
   align-items: center;
@@ -140,7 +125,6 @@ html, body {
   color: var(--text-muted);
 }
 
-/* Navigasi Tab */
 .nav-tabs {
   display: flex;
   align-items: center;
@@ -179,9 +163,6 @@ html, body {
   font-weight: 600;
 }
 
-/* --------------------------------------------------------------------------
-   4. Manajemen Panel Tab
-   -------------------------------------------------------------------------- */
 .main-content {
   flex: 1;
 }
@@ -194,9 +175,6 @@ html, body {
   display: block;
 }
 
-/* --------------------------------------------------------------------------
-   5. MODUL 1: KALKULATOR ILMIAH
-   -------------------------------------------------------------------------- */
 .calc-layout {
   display: grid;
   grid-template-columns: 1fr 340px;
@@ -208,7 +186,6 @@ html, body {
   padding: 22px;
 }
 
-/* Layar Tampilan Kalkulator */
 .calc-display-container {
   background: var(--green-light);
   border: 1px solid var(--green-border);
@@ -296,7 +273,6 @@ html, body {
   color: var(--text-muted);
 }
 
-/* Keypad Grid */
 .calc-keypad {
   display: flex;
   flex-direction: column;
@@ -332,7 +308,6 @@ html, body {
   gap: 8px;
 }
 
-/* Tombol Kalkulator */
 .calc-btn {
   height: 50px;
   border-radius: var(--radius-sm);
@@ -431,7 +406,6 @@ html, body {
   background: var(--green-hover);
 }
 
-/* Sidebar Kalkulator */
 .calc-sidebar {
   display: flex;
   flex-direction: column;
@@ -537,7 +511,6 @@ html, body {
   color: var(--text-muted);
 }
 
-/* Riwayat Hitung */
 .history-panel {
   flex: 1;
 }
@@ -590,9 +563,6 @@ html, body {
   color: var(--text-muted);
 }
 
-/* --------------------------------------------------------------------------
-   6. MODUL 2: KONVERSI SATUAN ILMIAH
-   -------------------------------------------------------------------------- */
 .converter-layout {
   padding: 24px;
   display: flex;
@@ -787,9 +757,6 @@ html, body {
   font-weight: 600;
 }
 
-/* --------------------------------------------------------------------------
-   7. Responsif Layar
-   -------------------------------------------------------------------------- */
 @media (max-width: 1080px) {
   .calc-layout {
     grid-template-columns: 1fr;

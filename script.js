@@ -1,23 +1,9 @@
-/**
- * ============================================================================
- * TapsCalculator - Aplikasi Perhitungan Ilmiah & Konversi Satuan
- * JavaScript ES6+ Engine
- * Modul:
- *  1. Navigasi Antarmuka (Kalkulator Ilmiah & Konversi Satuan)
- *  2. Kalkulator Ilmiah Presisi Tinggi (DEG/RAD, Invers, Pangkat, Konstanta, Memori, Riwayat)
- *  3. Konversi Satuan Ilmiah Lengkap (Panjang, Energi, Tekanan, Suhu, Massa, Kecepatan)
- * ============================================================================
- */
-
 document.addEventListener('DOMContentLoaded', () => {
   NavigationModule.init();
   ScientificCalcModule.init();
   UnitConverterModule.init();
 });
 
-/* ============================================================================
-   NAVIGASI TAB MODUL
-   ============================================================================ */
 const NavigationModule = (() => {
   function init() {
     const navButtons = document.querySelectorAll('.nav-btn');
@@ -42,9 +28,6 @@ const NavigationModule = (() => {
   return { init };
 })();
 
-/* ============================================================================
-   1. MODUL KALKULATOR ILMIAH
-   ============================================================================ */
 const ScientificCalcModule = (() => {
   let isDegreeMode = true;
   let isInvMode = false;
@@ -488,9 +471,6 @@ const ScientificCalcModule = (() => {
   };
 })();
 
-/* ============================================================================
-   2. MODUL KONVERSI SATUAN ILMIAH
-   ============================================================================ */
 const UnitConverterModule = (() => {
   const unitData = {
     length: {
